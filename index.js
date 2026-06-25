@@ -13,13 +13,13 @@ require("dotenv").config();
 
 const TOKEN = process.env.TOKEN;
 
-// حط هنا ID الروم اللي البوت هيبعت فيه البانل
+// ID الروم
 const PANEL_CHANNEL_ID = "1519683500498751689";
 
-// حط هنا ID السيرفر
+// ID السيرفر
 const GUILD_ID = "1492895005725954159";
 
-// الرتب والأزرار
+// الرتب
 const roles = [
   {
     id: "1519688688525774968",
@@ -68,7 +68,7 @@ const client = new Client({
 });
 
 client.once(Events.ClientReady, async () => {
-  console.log('✅ Logged in as ${client.user.tag}');
+  console.log(✅ Logged in as ${client.user.tag});
 
   const guild = await client.guilds.fetch(GUILD_ID);
   const channel = await guild.channels.fetch(PANEL_CHANNEL_ID);
@@ -82,7 +82,7 @@ client.once(Events.ClientReady, async () => {
 
   roles.forEach((role, index) => {
     const button = new ButtonBuilder()
-      .setCustomId('role_${role.id}')
+      .setCustomId(role_${role.id})
       .setLabel(role.label)
       .setEmoji(role.emoji)
       .setStyle(role.style);
@@ -136,10 +136,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     return interaction.reply({
-      content: "❌ مش قادر أدي/أشيل الرول. اتأكد إن رول البوت أعلى من الرتب دي.",
+      content: "❌ مش قادر أدي أو أشيل الرول. اتأكد إن رول البوت أعلى من الرتب وإن عنده صلاحية Manage Roles.",
       ephemeral: true
     });
   }
