@@ -119,7 +119,7 @@ client.on(Events.InteractionCreate, async interaction => {
         await member.roles.remove(data.roleId);
 
         return interaction.reply({
-            content: ❌ تمت إزالة رتبة **${data.label}**.,
+            content: '❌ تمت إزالة رتبة **${data.label}**.',
             ephemeral: true
         });
 
