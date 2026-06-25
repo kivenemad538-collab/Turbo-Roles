@@ -1,152 +1,139 @@
 const {
-  Client,
-  GatewayIntentBits,
-  Partials,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  EmbedBuilder,
-  Events
+    Client,
+    GatewayIntentBits,
+    Events,
+    EmbedBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle
 } = require("discord.js");
 
 require("dotenv").config();
 
-const TOKEN = process.env.TOKEN;
-
-// ID الروم
-const PANEL_CHANNEL_ID = "1519683500498751689";
-
-// ID السيرفر
-const GUILD_ID = "1492895005725954159";
-
-// الرتب
-const roles = [
-  {
-    id: "1519688688525774968",
-    label: "News Notifications",
-    emoji: "📣",
-    style: ButtonStyle.Primary
-  },
-  {
-    id: "1519688917878571098",
-    label: "Stream Notifications",
-    emoji: "🎬",
-    style: ButtonStyle.Success
-  },
-  {
-    id: "1519689282670035055",
-    label: "Event Notifications",
-    emoji: "🎉",
-    style: ButtonStyle.Danger
-  },
-  {
-    id: "1519689466359451748",
-    label: "Update Notifications",
-    emoji: "🚀",
-    style: ButtonStyle.Secondary
-  },
-  {
-    id: "1519689649323511908",
-    label: "Government Notifications",
-    emoji: "👜",
-    style: ButtonStyle.Secondary
-  },
-  {
-    id: "1519021760740069558",
-    label: "Voice Changer",
-    emoji: "➕",
-    style: ButtonStyle.Secondary
-  }
-];
-
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers
-  ],
-  partials: [Partials.Channel]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers
+    ]
 });
 
+const TOKEN = process.env.TOKEN;
+
+const GUILD_ID = "1492895005725954159";
+const CHANNEL_ID = "1519683500498751689";
+
+const ROLES = [
+    {
+        customId: "news_btn",
+        roleId: "1519688688525774968",
+        label: "News Notifications",
+        emoji: "📣",
+        style: ButtonStyle.Primary
+    },
+    {
+        customId: "stream_btn",
+        roleId: "1519688917878571098",
+        label: "Stream Notifications",
+        emoji: "🎬",
+        style: ButtonStyle.Success
+    },
+    {
+        customId: "event_btn",
+        roleId: "1519689282670035055",
+        label: "Event Notifications",
+        emoji: "🎉",
+        style: ButtonStyle.Danger
+    },
+    {
+        customId: "update_btn",
+        roleId: "1519689466359451748",
+        label: "Update Notifications",
+        emoji: "🚀",
+        style: ButtonStyle.Secondary
+    },
+    {
+        customId: "gov_btn",
+        roleId: "1519689649323511908",
+        label: "Government Notifications",
+        emoji: "🏛️",
+        style: ButtonStyle.Secondary
+    },
+    {
+        customId: "voice_btn",
+        roleId: "1519021760740069558",
+        label: "Voice Changer",
+        emoji: "🎤",
+        style: ButtonStyle.Secondary
+    }
+];
+
 client.once(Events.ClientReady, async () => {
-  try {
-    console.log('✅ Logged in as ${client.user.tag}');
+
+    console.log(${client.user.tag} Online);
 
     const guild = await client.guilds.fetch(GUILD_ID);
-    const channel = await guild.channels.fetch(PANEL_CHANNEL_ID);
+    const channel = await guild.channels.fetch(CHANNEL_ID);
 
     const embed = new EmbedBuilder()
-      .setColor("#ff0000")
-      .setDescription("في الأسفل هتلاقي الرتب اللي هتستخدم للتنبيهات");
+        .setColor("Red")
+        .setTitle("📢 Notification Roles")
+        .setDescription("اضغط على الزر لإضافة أو إزالة الرتبة.");
 
-    const rows = [];
-    let row = new ActionRowBuilder();
+    const row1 = new ActionRowBuilder();
+    const row2 = new ActionRowBuilder();
 
-    roles.forEach((role, index) => {
-      const button = new ButtonBuilder()
-        .setCustomId(role_${role.id})
-        .setLabel(role.label)
-        .setEmoji(role.emoji)
-        .setStyle(role.style);
+    ROLES.forEach((r, i) => {
 
-      row.addComponents(button);
+        const button = new ButtonBuilder()
+            .setCustomId(r.customId)
+            .setLabel(r.label)
+            .setEmoji(r.emoji)
+            .setStyle(r.style);
 
-      if (row.components.length === 5 || index === roles.length - 1) {
-        rows.push(row);
-        row = new ActionRowBuilder();
-      }
+        if (i < 5)
+            row1.addComponents(button);
+        else
+            row2.addComponents(button);
+
     });
 
     await channel.send({
-      embeds: [embed],
-      components: rows
+        embeds: [embed],
+        components: [row1, row2]
     });
 
-    console.log("✅ Role panel sent");
-  } catch (err) {
-    console.error("Startup Error:", err);
-  }
 });
 
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isButton()) return;
-  if (!interaction.customId.startsWith("role_")) return;
+client.on(Events.InteractionCreate, async interaction => {
 
-  const roleId = interaction.customId.replace("role_", "");
-  const role = interaction.guild.roles.cache.get(roleId);
+    if (!interaction.isButton()) return;
 
-  if (!role) {
-    return interaction.reply({
-      content: "❌ الرول غير موجودة.",
-      ephemeral: true
-    });
-  }
+    const data = ROLES.find(x => x.customId === interaction.customId);
 
-  const member = interaction.member;
+    if (!data) return;
 
-  try {
-    if (member.roles.cache.has(roleId)) {
-      await member.roles.remove(roleId);
+    const member = interaction.member;
 
-      return interaction.reply({
-        content: '✅ تم إزالة رول ${role.name} منك.',
-        ephemeral: true
-      });
+    if (member.roles.cache.has(data.roleId)) {
+
+        await member.roles.remove(data.roleId);
+
+        return interaction.reply({
+            content: ❌ تمت إزالة رتبة **${data.label}**.,
+            ephemeral: true
+        });
+
     } else {
-      await member.roles.add(roleId);
 
-      return interaction.reply({
-        content: '✅ تم إعطاؤك رول ${role.name}.',
-        ephemeral: true
-      });
+        await member.roles.add(data.roleId);
+
+        return interaction.reply({
+            content: ✅ تمت إضافة رتبة **${data.label}**.,
+            ephemeral: true
+        });
+
     }
-  } catch (err) {
-    console.error(err);
 
-    return interaction.reply({
-      content: "❌ مش قادر أدي أو أشيل الرول. اتأكد إن رول البوت أعلى من الرتب وإن عنده Manage Roles.",
-      ephemeral: true
-    });
-  }
 });
 
 client.login(TOKEN);
