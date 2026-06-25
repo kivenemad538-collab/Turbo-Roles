@@ -68,39 +68,43 @@ const client = new Client({
 });
 
 client.once(Events.ClientReady, async () => {
-  console.log("Bot is online");
+  try {
+    console.log(✅ Logged in as ${client.user.tag});
 
-  const guild = await client.guilds.fetch(GUILD_ID);
-  const channel = await guild.channels.fetch(PANEL_CHANNEL_ID);
+    const guild = await client.guilds.fetch(GUILD_ID);
+    const channel = await guild.channels.fetch(PANEL_CHANNEL_ID);
 
-  const embed = new EmbedBuilder()
-    .setColor("#ff0000")
-    .setDescription("في الأسفل هتلاقي الرتب اللي هتستخدم للتنبيهات");
+    const embed = new EmbedBuilder()
+      .setColor("#ff0000")
+      .setDescription("في الأسفل هتلاقي الرتب اللي هتستخدم للتنبيهات");
 
-  const rows = [];
-  let row = new ActionRowBuilder();
+    const rows = [];
+    let row = new ActionRowBuilder();
 
-  roles.forEach((role, index) => {
-    const button = new ButtonBuilder()
-      .setCustomId('role_${role.id}')
-      .setLabel(role.label)
-      .setEmoji(role.emoji)
-      .setStyle(role.style);
+    roles.forEach((role, index) => {
+      const button = new ButtonBuilder()
+        .setCustomId(role_${role.id})
+        .setLabel(role.label)
+        .setEmoji(role.emoji)
+        .setStyle(role.style);
 
-    row.addComponents(button);
+      row.addComponents(button);
 
-    if (row.components.length === 5 || index === roles.length - 1) {
-      rows.push(row);
-      row = new ActionRowBuilder();
-    }
-  });
+      if (row.components.length === 5 || index === roles.length - 1) {
+        rows.push(row);
+        row = new ActionRowBuilder();
+      }
+    });
 
-  await channel.send({
-    embeds: [embed],
-    components: rows
-  });
+    await channel.send({
+      embeds: [embed],
+      components: rows
+    });
 
-  console.log("✅ Role panel sent");
+    console.log("✅ Role panel sent");
+  } catch (err) {
+    console.error("Startup Error:", err);
+  }
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -112,7 +116,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   if (!role) {
     return interaction.reply({
-      content: "❌ الرول دي مش موجودة.",
+      content: "❌ الرول غير موجودة.",
       ephemeral: true
     });
   }
@@ -139,7 +143,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     console.error(err);
 
     return interaction.reply({
-      content: "❌ مش قادر أدي أو أشيل الرول. اتأكد إن رول البوت أعلى من الرتب وإن عنده صلاحية Manage Roles.",
+      content: "❌ مش قادر أدي أو أشيل الرول. اتأكد إن رول البوت أعلى من الرتب وإن عنده Manage Roles.",
       ephemeral: true
     });
   }
