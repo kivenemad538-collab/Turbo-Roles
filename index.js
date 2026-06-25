@@ -128,7 +128,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await member.roles.remove(roleId);
 
       return interaction.reply({
-        content: ✅ تم إزالة رول ${role.name} منك.,
+        content: '✅ تم إزالة رول ${role.name} منك.',
         ephemeral: true
       });
     } else {
