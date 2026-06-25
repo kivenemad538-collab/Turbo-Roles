@@ -82,7 +82,7 @@ client.once(Events.ClientReady, async () => {
 
   roles.forEach((role, index) => {
     const button = new ButtonBuilder()
-      .setCustomId(role_${role.id})
+      .setCustomId('role_${role.id}')
       .setLabel(role.label)
       .setEmoji(role.emoji)
       .setStyle(role.style);
