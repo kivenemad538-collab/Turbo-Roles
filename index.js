@@ -69,7 +69,7 @@ const ROLES = [
 
 client.once(Events.ClientReady, async () => {
 
-    console.log(${client.user.tag} Online);
+    console.log('${client.user.tag} Online');
 
     const guild = await client.guilds.fetch(GUILD_ID);
     const channel = await guild.channels.fetch(CHANNEL_ID);
