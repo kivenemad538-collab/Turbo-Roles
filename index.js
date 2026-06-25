@@ -135,7 +135,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await member.roles.add(roleId);
 
       return interaction.reply({
-        content: ✅ تم إعطاؤك رول ${role.name}.,
+        content: '✅ تم إعطاؤك رول ${role.name}.',
         ephemeral: true
       });
     }
