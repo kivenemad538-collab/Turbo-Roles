@@ -69,7 +69,7 @@ const client = new Client({
 
 client.once(Events.ClientReady, async () => {
   try {
-    console.log(✅ Logged in as ${client.user.tag});
+    console.log('✅ Logged in as ${client.user.tag}');
 
     const guild = await client.guilds.fetch(GUILD_ID);
     const channel = await guild.channels.fetch(PANEL_CHANNEL_ID);
