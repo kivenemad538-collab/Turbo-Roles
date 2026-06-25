@@ -128,7 +128,7 @@ client.on(Events.InteractionCreate, async interaction => {
         await member.roles.add(data.roleId);
 
         return interaction.reply({
-            content: ✅ تمت إضافة رتبة **${data.label}**.,
+            content: '✅ تمت إضافة رتبة **${data.label}**.',
             ephemeral: true
         });
 
