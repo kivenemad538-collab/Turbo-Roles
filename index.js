@@ -19,48 +19,48 @@ const client = new Client({
 
 const TOKEN = process.env.TOKEN;
 
-const GUILD_ID = "1492895005725954159";
-const CHANNEL_ID = "1519683500498751689";
+const GUILD_ID = "1522093054365012078";
+const CHANNEL_ID = "1522093056944242782";
 
 const ROLES = [
     {
         customId: "news_btn",
-        roleId: "1519688688525774968",
+        roleId: "1522093054365012085",
         label: "News Notifications",
         emoji: "📣",
         style: ButtonStyle.Primary
     },
     {
         customId: "stream_btn",
-        roleId: "1519688917878571098",
+        roleId: "1522093054365012082",
         label: "Stream Notifications",
         emoji: "🎬",
         style: ButtonStyle.Success
     },
     {
         customId: "event_btn",
-        roleId: "1519689282670035055",
+        roleId: "1522093054365012081",
         label: "Event Notifications",
         emoji: "🎉",
         style: ButtonStyle.Danger
     },
     {
         customId: "update_btn",
-        roleId: "1519689466359451748",
+        roleId: "1522093054365012083",
         label: "Update Notifications",
         emoji: "🚀",
         style: ButtonStyle.Secondary
     },
     {
         customId: "gov_btn",
-        roleId: "1519689649323511908",
+        roleId: "1522093054365012084",
         label: "Government Notifications",
         emoji: "🏛️",
         style: ButtonStyle.Secondary
     },
     {
         customId: "voice_btn",
-        roleId: "1519021760740069558",
+        roleId: "1522093054365012086",
         label: "Voice Changer",
         emoji: "🎤",
         style: ButtonStyle.Secondary
