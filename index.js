@@ -75,7 +75,7 @@ client.once(Events.ClientReady, async () => {
     const channel = await guild.channels.fetch(CHANNEL_ID);
 
     const embed = new EmbedBuilder()
-        .setColor("Red")
+        .setColor("Blue")
         .setTitle("📢 Notification Roles")
         .setDescription("اضغط على الزر لإضافة أو إزالة الرتبة.");
 
